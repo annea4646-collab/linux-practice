@@ -42,12 +42,48 @@
 ''' os.chdir : 현재 디렉터리 위치 변경 '''
 # >>> import os
 # >>> os.chdir("/mnt/d/doit")
+''' os.getcwd : 현재 자신의 디렉터리 위치를 리턴 '''
 # >>> os.getcwd()
 # '/mnt/d/doit'
-
+''' os.system : 시스템 자체 프로그램이나 기타 명령어 호출 '''
 # >>> os.system("dir")
 # __pycache__  app.py  class  doing  game  mod1.py  mod2.py  modtest.py  mymod  practice  text.txt
 # 0
+''' 기타 유용한 os 관련 함수'''
+# >>> import os
+# >>> os.mkdir("new_folder")                        # 디렉터리 생성
+# >>> os.rmdir("new_folder")                        # 디렉터리 삭제
+# >>> os.remove("test/test.py")                     # 파일 삭제
+# >>> os.system("touch test/test.txt")              # 파일 생성
+# >>> os.rename("test/test.txt","test/test1.txt")   # test.txt를 test1.txt로 파일명 변경
+
+''' zipfile : 여러개의 파일을 zip 형식으로 합치거나 해제(extractall)할 때 사용하는 모듈 '''
+# import zipfile
+# import os
+
+# if not os.path.exists('zip'):  
+#     os.mkdir('zip')                                         # zip 폴더 생성
+
+# for name in ['zip/a.txt','zip/b.txt','zip/c.txt']:          # a,b,c.txt 파일 생성
+#     with open(name, 'w') as f:
+#         f.write(f"This is {name} content")
+
+# with zipfile.ZipFile('zip/mytext.zip','w') as myzip:         # mytext.zip에 파일을 복사해서 압축
+#     myzip.write('zip/a.txt', arcname='a.txt')
+#     myzip.write('zip/b.txt', arcname='b.txt')
+#     myzip.write('zip/c.txt', arcname='c.txt')
+
+# with zipfile.ZipFile('zip/mytext.zip') as myzip:
+#     myzip.extractall('zip/output_folder')                   # mytext.zip 안의 파일을 output_folder폴더에 풀기
+
+''' zipfile : 합친 파일에서 특정파일만 해제(extract) '''
+# import zipfile
+
+# with zipfile.ZipFile('zip/mytext.zip') as myzip:
+#     myzip.extract('a.txt', path='zip')                        # a.txt 파일을 zip 폴더에 풀기기
+
+
+
 
 ''' Threading   1. 쓰레드 사용하지 않을 때 '''
 # import time
@@ -95,32 +131,90 @@
 
 
 
-''' Multi-process : CPU는 하나(혹은 그 이상이)지만, 그 안의 여러 코어들이 여러 프로세스를 동시에 실행 '''
-import time
-import multiprocessing
+''' Multi-process
+     - CPU는 하나(혹은 그 이상이)지만, 그 안의 여러 코어들이 여러 프로세스를 동시에 실행 
+     - 멀티프로세싱이 멀티스레딩보다 강력한 이유는 
+       각 프로세스가 개별적인 파이썬 인터프리터와 바이트코드 실행 환경을 통째로 갖기 때문
+        => long_task 5개를 동시에 실행해도 서로 방해받지 않고 끝날 수 있음
+'''
 
-def long_task():                                    # 여기서 long_task => Python 바이트코드
-    for i in range(5):
-        time.sleep(1)
-        print("working:%s\n" % i)
+# import time
+# import multiprocessing
 
-if __name__ == "__main__":
+# def long_task():                                    # long_task => 직렬화되어 자식 프로세스로 전달되는 실행 단위(함수 객체)
+#     for i in range(5):                              
+#         time.sleep(1)
+#         print("working:%s\n" % i)
 
-    print("Start")
-    start = time.time()                                 # 시작 시간 기록
+# if __name__ == "__main__":
 
-    processes = []
+#     print("Start")
+#     start = time.time()                                 # 시작 시간 기록
 
-    for i in range(5):
-        p = multiprocessing.Process(target=long_task)          
-        processes.append(p)                               
+#     processes = []
 
-    for t in processes:
-        t.start()                                       
+#     for i in range(5):
+#         p = multiprocessing.Process(target=long_task)     # 프로세서 생성      
+#         processes.append(p)                               
 
-    for t in processes:
-        t.join()                                        
+#     for t in processes:
+#         t.start()                                         # 프로세스 시작 : 각 프로세스는 독립된 GIL을 가지고 전달받은 Bytecode를 각자의 CPU 코어에서 실행                     
 
-    end = time.time()
-    print("End")                                        # 종료 시간 기록
-    print("걸린 시간: %.2f초" % (end - start))              # 결과값: 걸린 시간: 5.09초
+#     for t in processes:
+#         t.join()                                          # 프로세스 종료 대기                               
+
+#     end = time.time()
+#     print("End")                                        # 종료 시간 기록
+#     print("걸린 시간: %.2f초" % (end - start))              # 결과값: 걸린 시간: 5.09초
+
+
+''' tempfile : 파일을 임시로 만들어서 사용할 때 유용 '''
+''' tempfile.mkstemp : 중복되지 않는 임시 파일 이름을 무작위로 만들어 리턴 '''
+# >>> import tempfile
+# >>> filename=tempfile.mkstemp()
+# >>> filename
+# (3, '/tmp/tmpwsps02mq')
+# >>> filename=tempfile.mkstemp()
+# >>> filename
+# (4, '/tmp/tmp1lxn9p9m')
+# >>> filename=tempfile.mkstemp()
+# >>> filename
+# (5, '/tmp/tmp941s6suq')
+
+''' traceback : 프로그램 실행 중 발생한 오류 추적 '''
+# import traceback
+
+# def a():
+#     return 1 / 0
+
+# def b():
+#     a()
+
+# def main():
+#     try:
+#         b()
+#     except:
+#         print("오류가 발생했습니다.")
+#         print(traceback.format_exc())
+# main()                                  # 결과값: 오류가 발생했습니다.
+                                                # Traceback (most recent call last):
+                                                #   File "/home/annea4646/doit/practice/260120_practice.py", line 195, in main
+                                                #     b()
+                                                #   File "/home/annea4646/doit/practice/260120_practice.py", line 191, in b
+                                                #     a()
+                                                #   File "/home/annea4646/doit/practice/260120_practice.py", line 188, in a
+                                                #     return 1 / 0
+                                                # ZeroDivisionError: division by zero
+
+
+''' json    json.load() : JSON 형태의 데이터로 만든 파일을 읽어 (딕셔너리로) 변환'''
+import json
+
+with open('practice/myinfo.json', encoding='utf-8') as f:
+    data=json.load(f)
+print(data)
+print(type(data))
+
+if isinstance(data, dict):
+    for key in data.keys():
+        print(f"키: {key}, 값의 타입: {type(data[key])}")
