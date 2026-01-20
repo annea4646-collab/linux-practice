@@ -207,14 +207,56 @@
                                                 # ZeroDivisionError: division by zero
 
 
-''' json    json.load() : JSON 형태의 데이터로 만든 파일을 읽어 (딕셔너리로) 변환'''
+''' JSON    json.load() : JSON 형태의 데이터로 만든 파일을 읽어 (딕셔너리로) 변환'''
+# import json
+
+# with open('practice/myinfo.json', encoding='utf-8') as f:
+#     raw_text = f.read()                        # 파일의 raw data를 읽음
+#     print(f"json 파일 타입: {type(raw_text)}")       # json 파일 타입: <class 'str'>
+#     f.seek(0)
+
+#     data=json.load(f)
+#     print(data)
+#     print(f"json.load 후 타입: {type(data)}")   # json.load 후 타입: <class 'dict'>
+
+# if isinstance(data, dict):
+#     for key in data.keys():
+#         print(f"키: {key}, 값의 타입: {type(data[key])}")
+
+''' JSON    json.dumps() : 파이썬 자료형을 json 문자열로 만들기 '''
 import json
 
-with open('practice/myinfo.json', encoding='utf-8') as f:
-    data=json.load(f)
-print(data)
-print(type(data))
+d = {'name': "홍길자", 'birth': '1112', 'age': 30}
+json_data = json.dumps(d)
+print(json_data)                  # {"name": "\ud64d\uae38\uc790", "birth": "1112", "age": 30} => 비영어권 문자를 유니코드로 변환
 
-if isinstance(data, dict):
-    for key in data.keys():
-        print(f"키: {key}, 값의 타입: {type(data[key])}")
+''' JSON    json.loads() : json 문자열을 딕셔너리로 변환 '''
+print(json.loads(json_data))      # {'name': '홍길자', 'birth': '1112', 'age': 30}
+
+
+
+
+
+''' 외부 라이브러리 '''
+''' pip : 파이썬 모듈이나 패키지를 쉽게 설치할 수 있도록 도와주는 도구 '''
+# pip install SomePackage           : SomePackage 설치
+# pip uninstall SomePackage         : 설치한 패키지 삭제
+# pip install SomePackage==1.0.4    : 특정 버전 설치
+# pip install SomePackage           : 버전 생략 시 최신 버전 설치
+
+# pip install --upgrade SomePackage : 최신버전으로 업그레이드
+# pip list                          : 설치된 패키지 확인
+
+# pip show pip                      : pip라는 패키지의 버전 정보 확인
+
+        # 리눅스에서는 pip3 명령어 입력
+            # annea4646@DESKTOP-HBGCDB3:~/doit$ pip3 show pip
+            # Name: pip
+            # Version: 22.0.2
+            # ...
+ 
+
+# >>> import requests
+# >>> response = requests.get("https://www.google.com")
+# >>> print(f"응답 코드: {response.status_code}")
+# 응답 코드: 200                    # 성공적으로 연결됨
