@@ -423,7 +423,7 @@ result = itertools.zip_longest(students, snacks, fillvalue='새우깡')
 print(list(result))                 # [('한민서', '사탕'), ('황지민', '초콜릿'), ('이영철', '젤리'), ('이광수', '새우깡'), ('김승민', '새우깡')]  
 
 
-''' itertools.permutation : 반복가능객체 안에서 r개를 선택한 순열을 이터레이터로 리턴  '''
+''' itertools.permutation : 반복가능객체(interable) 안에서 r개를 선택한 순열을 이터레이터(iterator)로 리턴  '''
 import itertools
 items = [1, 2]
 
