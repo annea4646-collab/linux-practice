@@ -31,10 +31,12 @@
     - 환경 변수 및 시스템
     - JSON 데이터 처리
 
-- **260121_practice.py: 파이썬과 유니코드, 정규 표현식**
+- **260121_practice.py: 파이썬과 유니코드**
     - unicode
     - closure
     - decorator
     - iterator
     - annotation
+
+- **260122_practice.py: 정규 표현식**
     - 정규표현식
