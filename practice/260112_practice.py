@@ -111,14 +111,15 @@
 
 # class Child(Parent):
 #     def __init__(self):
-#         print("Child init BEFORE super id: ", id(self))
-#         super().__init__()      # super()__init__()은 자식 인스턴스(=self)를 Parent 클래스의 __init__에 넘겨서, Parent가 자신의 초기화를 하도록 하는 것임.
-#                                 # Child가 __init__()을 재정의(override) 했으므로, 부모의 init__은 가려짐.
-#                                 # 따라서 부모의 초기화 로직을 실행하려면 반드시 super()__init__()을 명시적으로 추출해야함.
-#         print("Child init AFTER super id: ", id(self))
+#         print("Child init BEFORE super id: ", id(self))                 # Child init BEFORE super id:  137910436708064
+#         super().__init__()                                              # Parent init id:  137910436708064
+#         # super()__init__()은 자식 인스턴스(=self)를 Parent 클래스의 __init__에 넘겨서, Parent가 자신의 초기화를 하도록 하는 것임.
+#         # Child가 __init__()을 재정의(override) 했으므로, 부모의 __init__은 가려짐.
+#         # 따라서 부모의 초기화 로직을 실행하려면 반드시 super()__init__()을 명시적으로 추출해야함.
+#         print("Child init AFTER super id: ", id(self))                  # Child init AFTER super id:  137910436708064
 
 # c = Child()
-# print("final c id: ", id(c))
+# print("final c id: ", id(c))                                            # final c id:  137910436708064
 
 
 ''' Child 클래스가 Parent를 상속 받았고, Child에 자체적인 __init__()이 정의되지 않았을 때 
@@ -129,16 +130,14 @@
 
 # class Parent:
 #     def __init__(self):
-#         print("Parent init 실행됨")
-#         self.x = 10
-
+#         print("Parent init 실행됨")     # (2) 출력값: Parent init 실행됨 
+#         self.x = 10                     # (3) 객체 c의 주머니에 10 저장
 # class Child(Parent):
 #     pass
-
-# c = Child()     # Child가 __init__을 정의하지 않았으므로,
-#                 # 부모의 __init__ 메서드를 그대로 상속받아 사용함.
-#                 # 즉, 별도의 super 호출 없이도 부모의 로직이 자동으로 수행됨.
-# print(c.x)
+# c = Child()                             # (1) 부모의 __init__으로 강제 소환하면서 (2) 출력!
+# # Child가 __init__을 정의하지 않았으므로, 부모의 __init__ 메서드를 그대로 상속받아 사용
+# # 즉, 별도의 super 호출 없이도 부모의 로직이 자동으로 수행
+# print(c.x)                              # (4) 출력값: 10
 
 
 
@@ -171,22 +170,22 @@
 '''
 
 
-class Parent:
-    def __init__(self, organization):
-        self.organization = organization  # 소속 (공통 필드)
+# class Parent:
+#     def __init__(self, organization):
+#         self.organization = organization  # 소속 (공통 필드)
 
-class Child(Parent):
-    def __init__(self, organization, name, phone, email):
-        # 부모의 __init__을 호출하며 '소속' 정보를 전달함
-        super().__init__(organization) 
+# class Child(Parent):
+#     def __init__(self, organization, name, phone, email):
+#         # 부모의 __init__을 호출하며 '소속' 정보를 전달함
+#         super().__init__(organization) 
         
-        # 자식만의 고유 정보 (개별 필드)
-        self.name = name
-        self.phone = phone
-        self.email = email
+#         # 자식만의 고유 정보 (개별 필드)
+#         self.name = name
+#         self.phone = phone
+#         self.email = email
 
-# 인스턴스화
-c = Child("우리은행", "김철수", "010-1234-5678", "chulsoo@example.com")
-print(f"소속: {c.organization}, 이름: {c.name}")
+# # 인스턴스화
+# c = Child("우리은행", "김철수", "010-1234-5678", "chulsoo@example.com")
+# print(f"소속: {c.organization}, 이름: {c.name}")
 
 
